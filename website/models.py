@@ -12,7 +12,6 @@ class User(db.Model, UserMixin):##usermixin makes it easier for user login
     password = db.Column(db.String(15))
     sf = db.Column(db.String(7))
     zip = db.Column(db.String(5))
-    bday = db.Column(db.String(10))##might cause an error if it does change to string(10)
     date_created = db.Column(db.DateTime(timezone=True), default=func.now())
     borroweditems= db.relationship('Borroweditem', backref='user',passive_deletes=True)##reference all borroweditems##relationship with db
     creators= db.relationship('Inventory', backref='user',passive_deletes=True)##reference all borroweditems##relationship with db
@@ -32,4 +31,6 @@ class Inventory(db.Model):
     desc=db.Column(db.String(200))
     i_loc=db.Column(db.String(200))
     quantity= db.Column(db.Integer)
+    group= db.Column(db.String(26))
+    subgroup=db.Column(db.String(26))
     Creator = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"),nullable=False) ##foreign key relationship //id of who added it.

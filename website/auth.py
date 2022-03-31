@@ -81,7 +81,7 @@ def register():
         email = request.form.get("email")
         email_exists = User.query.filter_by(email=email).first()##checks if email is already in use. 
         token = serializer.dumps(email, salt='email-confirm')
-        msg = Message('Register Now For The SMU Nursing Inventory',sender = 'buakthaimuay@gmail.com',recipients=[email])       
+        msg = Message('Register Now For The SMU Nursing Inventory',sender = '',recipients=[email])       
         link = url_for('auth.confirmed_registration', token=token, _external=True)        
         msg.body = "The link to register is {}".format(link)
         
@@ -121,7 +121,6 @@ def confirmed_registration(token):
         s_id = request.form.get("s_id")
         zip = request.form.get("zip")
         telnum = request.form.get("telnum")##telephone number
-        bday = request.form.get("bday")
         sf= request.form.get("sf")##student or staff
         password = request.form.get("password1")
         confirmedpassword = request.form.get("password2")
@@ -137,13 +136,13 @@ def confirmed_registration(token):
             return redirect(url_for("views.home"))
         else:
             ##maybe add firstname and lastname length validation
-            if email == '' or fname == '' or lname == ''or s_id=='' or zip == '' or telnum =='' or bday =='' or sf == '' or confirmedpassword == '' or password == '':
+            if email == '' or fname == '' or lname == ''or s_id=='' or zip == '' or telnum =='' or  sf == '' or confirmedpassword == '' or password == '':
                 flash("All input fields must be filled up",category="warning")
                 return redirect(request.url)
             else:
-                if re.search(emailpattern, email) and re.search(namepattern, lname) and re.search(namepattern,fname) and re.search(phonepattern,telnum) and re.search(zippattern,zip) and re.search(schoolidpattern, s_id) and re.search(bdaypattern,bday) and sf == 'Staff' or sf =='Student':
+                if re.search(emailpattern, email) and re.search(namepattern, lname) and re.search(namepattern,fname) and re.search(phonepattern,telnum) and re.search(zippattern,zip) and re.search(schoolidpattern, s_id) and sf == 'Staff' or sf =='Student':
                     if password == confirmedpassword and len(password)>=6:
-                        new_user = User(email=email, telnum=telnum,s_id=s_id, fname=fname, lname=lname, password=generate_password_hash(password, method='sha256'), sf=sf, zip=zip, bday=bday) ##stores user input using the model created
+                        new_user = User(email=email, telnum=telnum,s_id=s_id, fname=fname, lname=lname, password=generate_password_hash(password, method='sha256'), sf=sf, zip=zip) ##stores user input using the model created
                         db.session.add(new_user)
                         db.session.commit()
                         login_user(new_user, remember=True)                   
@@ -206,18 +205,17 @@ def confirmedforgot_password(token):
         s_id = request.form.get("s_id")
         zip = request.form.get("zip")
         telnum = request.form.get("telnum")
-        bday = request.form.get("bday")
         password = request.form.get("password1")
         confirmpassword = request.form.get("password2")
 
         user = User.query.filter_by(email=email).first()
         
-        if email == '' or s_id == '' or zip == '' or telnum == '' or password == '' or confirmpassword == '' or  bday == '':
+        if email == '' or s_id == '' or zip == '' or telnum == '' or password == '' or confirmpassword == '':
             flash("All fields are required", category="warning")
             return redirect(request.url)
         else:
-            if re.search(emailpattern, email) and re.search(phonepattern,telnum) and re.search(zippattern,zip) and re.search(schoolidpattern, s_id) and re.search(bdaypattern,bday):
-                if user.email == email and user.zip ==zip and user.telnum == telnum and user.bday == bday:
+            if re.search(emailpattern, email) and re.search(phonepattern,telnum) and re.search(zippattern,zip) and re.search(schoolidpattern, s_id):
+                if user.email == email and user.zip ==zip and user.telnum == telnum:
                     if password==confirmpassword and len(password)>=6:
                         flash("Password successfully changed", category="success")
                         user.password = generate_password_hash(password, method='sha256')

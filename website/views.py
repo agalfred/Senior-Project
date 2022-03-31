@@ -39,7 +39,10 @@ def account_info():
 @views.route("/user/Check-in")
 @login_required
 def Check_in():
-    if session.get("SCHOOL_ID", None) is not None and session.get("FNAME",None) is not None and session.get("LNAME",None) is not None and session.get("DATE",None) is not None and session.get("SF",None) is not None and session.get("id",None) is not None:
+    if session.get("id",None) is not None and session.get("SF", "Staff"):
+        itemsborrowed = Borroweditem.query.all()
+        return render_template("Checked_out_items.html",user = current_user, data=itemsborrowed)
+    elif session.get("SCHOOL_ID", None) is not None and session.get("FNAME",None) is not None and session.get("LNAME",None) is not None and session.get("DATE",None) is not None and session.get("SF",None) is not None and session.get("id",None) is not None:
         itemsborrowed = Borroweditem.query.filter_by(borrower=session['id']).all()
         return render_template("Check-in.html",user = current_user ,data=itemsborrowed)
     else:
@@ -104,6 +107,8 @@ def add():
             products_id = request.form.get("product_id")
             product_name =request.form.get("product_name")
             desc= request.form.get("desc")
+            group = request.form.get("group")
+            subgroup = request.form.get("subgroup")
             i_loc= request.form.get("i_loc")
             quantity= request.form.get("quantity")##can only check one item a time
                        
@@ -113,17 +118,17 @@ def add():
                 flash("product id already exists",category="error")
                 return redirect(request.url)
             else:
-                if products_id == '' and product_name == '' and desc == '' and i_loc =='' and quantity =='':             
+                if products_id == '' and product_name == '' and desc == '' and group == '' and subgroup == '' and i_loc =='' and quantity =='':             
                     flash("Cannot be empty",category="error")
                     return redirect(request.url)
                 else:
                     ##add input validation here regex
-                    if re.search(pidpattern,products_id) and re.search(strpattern,product_name) and re.search(strpattern,desc) and re.search(strpattern,i_loc) and re.search(quantitypattern,quantity) and int(quantity)>0:                    
-                        add = Inventory(product_id=products_id, product_name=product_name, quantity=quantity, desc=desc,i_loc=i_loc,Creator=current_user.id)
+                    if re.search(pidpattern,products_id) and re.search(strpattern,product_name) and re.search(strpattern,group) and re.search(strpattern,desc) and re.search(strpattern,i_loc) and re.search(quantitypattern,quantity) and int(quantity)>0:                    
+                        add = Inventory(product_id=products_id, product_name=product_name, quantity=quantity, desc=desc, group=group, subgroup=subgroup, i_loc=i_loc,Creator=current_user.id)
                         db.session.add(add)
                         db.session.commit()
                         flash("Successfully added.",category="success")
-                        return redirect(request.url)
+                        return redirect(url_for('views.user'))
                     else:
                         flash("Failed to add",category="error")
         return render_template("add.html",user=current_user)       
