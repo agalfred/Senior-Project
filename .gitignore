@@ -1,4 +1,3 @@
-
-website/__pycache__/models.cpython-310.pyc
 *.pyc
-*.pyc
+/_pycache_/*
+/website/_pycache_/*
