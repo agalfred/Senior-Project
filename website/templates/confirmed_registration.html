@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles1.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Confirmed Registration</title>
+   </head>
+<body> 
+  <div class="container">
+    <div class="title">Registration</div>
+    <div class="content">
+      <form method="POST">
+        {% with messages = get_flashed_messages(with_categories=true)%}
+        {% if messages %}
+          {% for category, message in messages%}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+               <span>{{message}}</span>
+               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          {% endfor %}
+         {% endif %}
+         {% endwith %}
+        <div class="user-details">
+          <div class="input-box">
+            <span class="details">First Name</span>
+            <input type="text" id="fname" name ="fname" placeholder="Enter your first name" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Last Name</span>
+            <input type="text" id="lname" name ="lname" placeholder="Enter your last name" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Email</span>
+            <input type="email" id="email" name ="email" placeholder="Enter your email" required>
+          </div>
+          <div class="input-box">
+            <span class="details">School ID Number</span>
+            <input type="text" id="s_id" name ="s_id" placeholder="000xxxxxx" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Zip Code</span>
+            <input type="text" id="zip" name ="zip" placeholder="Enter your zipcode" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Phone Number</span>
+            <input type="tel" id="telnum" name ="telnum" placeholder="1xxxxxxxxxx or xxx xxx xxxx" required>
+          </div>
+         
+          <div class="input-box">
+            <span class="details">Birth Date</span>
+            <input type="date"  id="bday" name ="bday" required>
+          </div>
+
+          <div class="input-box">
+            <span class="details">I am a:</span>
+            <select id="sf" name="sf" required>
+                <option value="Student">Student</option>
+                <option value="Staff">Staff</option>
+              </select>
+          </div>
+          
+          <div class="input-box">
+            <span class="details">Password</span>
+            <input type="password"  id="password1" name ="password1" placeholder="password needs to be 6 or more characters" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Confirm Password</span>
+            <input type="password"  id="password2" name ="password2" placeholder="Confirm your password" required>
+          </div>
+        </div>
+      
+        <div class="button">
+          <input type="submit" value="Register">
+        </div>
+      </form>
+    </div>
+  </div>
+ 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+</html>

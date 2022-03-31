@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check-in</title>
+    <!-- insert stylesheets here -->
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles3.css') }}">
+    <!-- CSS only -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />    
+    <link href='https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css' rel='stylesheet' type='text/css'>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    
+</head>
+<body>
+    {% if session['SCHOOL_ID'] and session['FNAME'] and session ['id'] and user.is_authenticated %}
+    <div class="wrapper">
+        <nav>     
+          <header>
+            <span></span>
+              {{session['FNAME']}}
+            <a></a>
+          </header>
+          <ul>
+            <li><span>Navigation</span></li>
+            <li><a style="text-decoration:none" href="{{url_for('views.user')}}">Inventory</a></li>
+            <li><a style="text-decoration:none" href="{{url_for('views.user')}}">Add Item</a></li>
+            <li><a style="text-decoration:none" href="{{url_for('views.user')}}">Edit Item</a></li>
+            <li><a style="text-decoration:none" href="{{url_for('views.user')}}">Delete Item</a></li>
+            <li><a class="active" style="text-decoration:none" href="{{url_for('views.Check_in')}}">Check-in</a></li>
+            <li><a style="text-decoration:none" href="{{url_for('views.Check_out')}}">Check-out</a></li>
+            <li><span>Other</span></li>
+            <li><a style="text-decoration:none" href="{{url_for('views.account_info')}}">Account Info</a></li>
+            <!--<li><a>Settings</a></li>-->
+            <li><a style="text-decoration:none" href="{{url_for('auth.logout')}}">Logout</a></li>
+          </ul>        
+        </nav>
+      
+        <main>     
+          <h1>P{{session['SCHOOL_ID']}}'s DASHBOARD</h1>
+          <div class="container-fluid">
+            <div class="row" style="padding:50px;">
+                <p><h2>{{session['FNAME']}}'s borrowed items that have not been returned!</h1></p>
+                <div >
+                    <table id='empTable' class='display dataTable' width='100%'>
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Item product ID</th>
+                            <th>Date checked-out</th> <!--date created -->
+                            <th>Quantity</th>
+                            <th>Check-in!</th>                          
+                        </tr>
+                        </thead>
+                        {% for row in data %}
+                          <tr>
+                              <th>{{row.id}}</th>
+                              <th>{{row.product_id}}</th>
+                              <th>{{row.date_borrowed}}</th>
+                              <th>{{row.quantity}}</th>
+                              <th><a style="text-decoration:none" href="/user/Check-in-confirmed/{{row.id}}">Return</a></th>
+                          </tr>
+                        {% endfor %}
+                        <tbody>
+                          
+                        </tbody>
+                         
+                    </table>
+                </div>
+           </div>
+        </div>
+        </main>      
+      </div>
+      {% endif %}
+<script>
+$(document).ready(function() {
+    $('#empTable').DataTable();
+} );
+</script>

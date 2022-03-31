@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles1.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Add</title>
+   </head>
+<body>
+  <div class="container">
+    <div class="title">Add an item</div>
+    <div class="content"> 
+      {% if session['ISstaff'] and session['id'] %}     
+      <form method="POST">
+        {% with messages = get_flashed_messages(with_categories=true)%}
+        {% if messages %}
+          {% for category, message in messages%}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+               <span>{{message}}</span>
+               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          {% endfor %}
+         {% endif %}
+         {% endwith %}
+        
+         <div class="user-details">
+          <div class="input-box">
+            <span class="details">Product ID</span>
+            <input type="text" id="product_id" name ="product_id" placeholder="Enter Product ID" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Item Name</span>
+            <input type="text" id="product_name" name ="product_name" placeholder="Enter Item Name" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Description </span>
+            <input type="text"  id="desc" name ="desc" placeholder="Enter Short description" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Item Location</span>
+            <input type="text"  id="i_loc" name ="i_loc" placeholder="Enter Item Location" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Quantity</span>
+            <input type="number"  id="quantity" name ="quantity" placeholder="Enter Amount" required min="1" max="20000">
+          </div>
+        </div>
+        <div class="button">
+          <input type="submit" value="Submit">
+        </div>
+        <div>
+            <a style="text-decoration:none" style="align-items:center" href="{{url_for('views.user')}}">Click here to cancel or go back to dashboard!</a>
+        </div>
+      {% else %}
+        <div>
+          <a style="text-decoration:none" style="align-items:center" href="{{url_for('views.user')}}">You don't have access to add to the Inventory!</a>
+      </div>
+      {% endif %}
+      </form>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+</html>
+

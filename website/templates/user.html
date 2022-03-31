@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles3.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />    
+    <link href='https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css' rel='stylesheet' type='text/css'>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>    
+</head>
+<body>
+  {% if session['SCHOOL_ID'] and session['FNAME'] and session['LNAME'] and session['DATE'] and session['SF'] and user.is_authenticated %}
+    <div class="wrapper">
+        <nav>     
+          <header>
+            <span></span>
+              {{session['FNAME']}}
+            <a></a>
+          </header>
+          <ul>
+            <li><span>Navigation</span></li>
+            <li><a class="active" style="text-decoration:none" href="{{url_for('views.user')}}">Inventory</a></li>
+            <li><a style="text-decoration:none" href="{{url_for('views.add')}}">Add Item</a></li>
+            <li><a style="text-decoration:none" href="{{url_for('views.edit')}}">Edit Item</a></li>
+            <li><a style="text-decoration:none" href="{{url_for('views.delete')}}">Delete Item</a></li>
+            <li><a style="text-decoration:none" href="{{url_for('views.Check_in')}}">Check-in</a></li>
+            <li><a style="text-decoration:none" href="{{url_for('views.Check_out')}}">Check-out</a></li>
+            <li><span>Other</span></li>
+            <li><a style="text-decoration:none" href="{{url_for('views.account_info')}}">Account Info</a></li>
+            <!--<li><a>Settings</a></li>-->
+            <li><a style="text-decoration:none" href="{{url_for('auth.logout')}}">Logout</a></li>
+          </ul>      
+        </nav>     
+        <main>     
+          <h1>P{{session['SCHOOL_ID']}}'s DASHBOARD</h1>
+          <div class="container-fluid">
+            <div class="row" style="padding:50px;">
+                <p><h2>Nursing items that are currently available</h1></p>
+                <div >
+                    <table id='empTable' class='display dataTable' width='100%'>
+                        <thead>
+                        <tr>
+                            <th>Item product ID</th>
+                            <th>Item Name</th>
+                            <th>Description</th>
+                            <th>Date Added</th>
+                            <th>Item location</th>
+                            <th>Quantity</th>                        
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                          {% for row in data %}
+                          <tr>
+                              <th>{{row.product_id}}</th>
+                              <th>{{row.product_name}}</th>
+                              <th>{{row.desc}}</th>
+                              <th>{{row.date_added}}</th>
+                              <th>{{row.i_loc}}</th>
+                              <th>{{row.quantity}}</th>
+                          </tr>
+                          {% endfor %}
+                        </tbody>                     
+                    </table>
+                </div>
+           </div>
+        </div>
+        </main>      
+      </div>
+    {% endif %}
+<script>
+$(document).ready(function() {
+    $('#empTable').DataTable();
+} );
+</script>
+</body>
+</html>

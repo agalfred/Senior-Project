@@ -1,0 +1,21 @@
+{% extends "base.html"%}
+{% block title %}Register{% endblock %}
+{% block content %}
+<form method="POST">
+    <!--<h1 align="center">Send Registration Link!</h1>-->
+    <div class="form-group">
+        {% if user.is_authenticated %}
+        <div>
+            <label><p id="logp">You are currently logged in </label><a href="{{ url_for('views.user') }}">click here to redirect you to user page!</a></p> 
+        </div>
+        {% else %}
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" name="email" class="form-control" placeholder="Enter A Valid Email Address"/>
+       
+        <div align="center">
+            <button class="btn btn-primary" type = "submit">Register</button>
+        </div>
+        {% endif %}
+    </div>
+</form>
+{% endblock %}

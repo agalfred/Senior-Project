@@ -1,0 +1,29 @@
+{% extends "base.html"%}
+{% block title %}Login{% endblock %}
+{% block content %}
+<form method="POST">
+    
+    <div class="form-group">
+        {% if user.is_authenticated %}       
+        <div>
+            <label><p id="logp">You are currently logged in </label><a href="{{ url_for('views.user') }}">click here to redirect you to user page!</a></p> 
+        </div>
+        {% else %}
+        <h1 id ="login" align="center">Login</h1>
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" name="email" class="form-control" placeholder="Enter Email Address" required/>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Enter Password" required/>
+        <div>
+            <label><p id="logp">Forgot your password? </label><a href="{{ url_for('auth.forgot_password') }}">click here!</a></p>          
+        </div>
+              
+        <div align="center">
+            <button class="btn btn-primary" type = "submit">Login</button>
+        </div>
+        {% endif %}
+       
+    </div>
+</form>
+{% endblock %}

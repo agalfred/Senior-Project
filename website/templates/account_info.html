@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acct Info</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles3.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />    
+    <link href='https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css' rel='stylesheet' type='text/css'>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>    
+</head>
+<body>
+    {% if session['SCHOOL_ID'] and session['FNAME'] and session['LNAME'] and session['DATE'] and session['SF'] and user.is_authenticated %}
+    <div class="wrapper">
+        <nav>     
+          <header>
+            <span></span>
+              {{session['FNAME']}}
+            <a></a>
+          </header>
+          <ul>
+            <li><span>Navigation</span></li>
+            <li><a style="text-decoration:none" href="{{url_for('views.user')}}">Inventory</a></li>
+            <li><a style="text-decoration:none" href="{{url_for('views.add')}}">Add Item</a></li>
+            <li><a style="text-decoration:none" href="{{url_for('views.edit')}}">Edit Item</a></li>
+            <li><a style="text-decoration:none" href="{{url_for('views.delete')}}">Delete Item</a></li>
+            <li><a style="text-decoration:none" href="{{url_for('views.Check_in')}}">Check-in</a></li>
+            <li><a style="text-decoration:none" href="{{url_for('views.Check_out')}}">Check-out</a></li>
+            <li><span>Other</span></li>
+            <li><a class="active" style="text-decoration:none" href="{{url_for('views.account_info')}}">Account Info</a></li>
+            <!--<li><a>Settings</a></li>-->
+            <li><a style="text-decoration:none" href="{{url_for('auth.logout')}}">Logout</a></li>
+          </ul>      
+        </nav>     
+        <main>     
+          <h1>P{{session['SCHOOL_ID']}}'s DASHBOARD</h1>
+          <div class="flex-grid">
+            <div>
+              <h2>Account Information</h2>
+              <ul>
+                <li>Account owner: {{session['FNAME']}} {{session['LNAME']}}</li>
+                <li>Account ID: {{session['SCHOOL_ID']}}</li>
+                <li>Account Created: {{session['DATE']}}</li>
+                <li>User is a: {{session['SF']}}</li>
+              </ul>
+            </div>
+        </main>      
+      </div>
+    {% endif %}
+<script>
+$(document).ready(function() {
+    $('#empTable').DataTable();
+} );
+</script>
+</body>
+</html>
