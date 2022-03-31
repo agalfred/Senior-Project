@@ -81,7 +81,7 @@ def register():
         email = request.form.get("email")
         email_exists = User.query.filter_by(email=email).first()##checks if email is already in use. 
         token = serializer.dumps(email, salt='email-confirm')
-        msg = Message('Register Now For The SMU Nursing Inventory',sender = '',recipients=[email])       
+        msg = Message('Register Now For The SMU Nursing Inventory',sender = 'buakthaimuay@gmail.com',recipients=[email])       
         link = url_for('auth.confirmed_registration', token=token, _external=True)        
         msg.body = "The link to register is {}".format(link)
         
