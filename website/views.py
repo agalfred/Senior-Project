@@ -85,7 +85,7 @@ def Check_out():
                 return redirect(request.url)
             else:
                 if re.search(pidpattern, products_id) and product:
-                    borrowing = Borroweditem(product_id=products_id, quantity=quantity, borrower=current_user.id)
+                    borrowing = Borroweditem(product_id=products_id, quantity=quantity, borrower=current_user.s_id)
                     db.session.add(borrowing)
                     db.session.commit()
 
