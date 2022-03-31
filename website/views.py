@@ -39,7 +39,7 @@ def account_info():
 @views.route("/user/Check-in")
 @login_required
 def Check_in():
-    if session.get("id",None) is not None and session.get("SF", "Staff"):
+    if session.get("id",None) is not None and session.get("sf", "Staff"):
         itemsborrowed = Borroweditem.query.all()
         return render_template("Checked_out_items.html",user = current_user, data=itemsborrowed)
     elif session.get("SCHOOL_ID", None) is not None and session.get("FNAME",None) is not None and session.get("LNAME",None) is not None and session.get("DATE",None) is not None and session.get("SF",None) is not None and session.get("id",None) is not None:
@@ -82,7 +82,7 @@ def Check_out():
                 return redirect(request.url)
             else:
                 if re.search(pidpattern, products_id) and product:
-                    borrowing = Borroweditem(product_id=products_id, quantity=quantity, borrower=current_user.id)
+                    borrowing = Borroweditem(product_id=products_id, quantity=quantity, borrower=current_user.s_id)
                     db.session.add(borrowing)
                     db.session.commit()
 
