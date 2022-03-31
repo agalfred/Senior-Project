@@ -39,16 +39,19 @@ def account_info():
 @views.route("/user/Check-in")
 @login_required
 def Check_in():
-    if session.get("id",None) is not None and session.get("SF", "Staff"):
-        itemsborrowed = Borroweditem.query.all()
-        return render_template("Checked_out_items.html",user = current_user, data=itemsborrowed)
-    elif session.get("SCHOOL_ID", None) is not None and session.get("FNAME",None) is not None and session.get("LNAME",None) is not None and session.get("DATE",None) is not None and session.get("SF",None) is not None and session.get("id",None) is not None:
+    if session.get("SCHOOL_ID", None) is not None and session.get("FNAME",None) is not None and session.get("LNAME",None) is not None and session.get("DATE",None) is not None and session.get("SF",None) is not None and session.get("id",None) is not None:
         itemsborrowed = Borroweditem.query.filter_by(borrower=session['id']).all()
         return render_template("Check-in.html",user = current_user ,data=itemsborrowed)
     else:
         flash("You do not have access to this page! Pls, Log in!", category="error")
         return redirect(url_for('views.home'))
 
+@views.route("/user/Check_out_items")
+@login_required
+def Checked():
+    if session.get("id",None) is not None and session.get("sf", "Staff"):
+        itemsborrowed = Borroweditem.query.all()
+        return render_template("Checked_out_items.html",user = current_user, data=itemsborrowed)
 
 @views.route("user/Check-in-confirmed/<id>")
 @login_required

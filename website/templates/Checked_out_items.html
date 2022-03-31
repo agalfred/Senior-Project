@@ -14,7 +14,7 @@
     
 </head>
 <body>
-    {% if session['SCHOOL_ID'] and session['FNAME'] and session ['id'] and user.is_authenticated %}
+  {% if session['ISstaff'] and session['id'] %}
     <div class="wrapper">
         <nav>     
           <header>
@@ -30,6 +30,7 @@
             <li><a style="text-decoration:none" href="{{url_for('views.user')}}">Delete Item</a></li>
             <li><a class="active" style="text-decoration:none" href="{{url_for('views.Check_in')}}">Check-in</a></li>
             <li><a style="text-decoration:none" href="{{url_for('views.Check_out')}}">Check-out</a></li>
+            <li><a style="text-decoration:none" href="{{url_for('views.Checked')}}">Checked-out</a></li>
             <li><span>Other</span></li>
             <li><a style="text-decoration:none" href="{{url_for('views.account_info')}}">Account Info</a></li>
             <!--<li><a>Settings</a></li>-->
@@ -73,6 +74,10 @@
            </div>
         </div>
         </main>      
+      </div>
+      {% else %}
+        <div>
+          <a style="text-decoration:none" style="align-items:center" href="{{url_for('views.user')}}">You don't have access to add to the Inventory!</a>
       </div>
       {% endif %}
 <script>
