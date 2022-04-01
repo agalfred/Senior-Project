@@ -40,7 +40,7 @@ def account_info():
 @login_required
 def Check_in():
     if session.get("SCHOOL_ID", None) is not None and session.get("FNAME",None) is not None and session.get("LNAME",None) is not None and session.get("DATE",None) is not None and session.get("SF",None) is not None and session.get("id",None) is not None:
-        itemsborrowed = Borroweditem.query.filter_by(borrower=session['id']).all()
+        itemsborrowed = Borroweditem.query.filter_by(borrower=session['SCHOOL_ID']).all()
         return render_template("Check-in.html",user = current_user ,data=itemsborrowed)
     else:
         flash("You do not have access to this page! Pls, Log in!", category="error")

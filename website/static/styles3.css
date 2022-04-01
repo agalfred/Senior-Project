@@ -102,11 +102,14 @@ nav ul li:nth-child(6) a:before {
 nav ul li:nth-child(7) a:before {
 	content: "\f0fa";
 }
+nav ul li:nth-child(8) a:before {
+	content: "\f0fa";
+}
 
-nav ul li:nth-child(9) a:before {
+nav ul li:nth-child(10) a:before {
  content: "\f085";
 }
-nav ul li:nth-child(10) a:before {
+nav ul li:nth-child(11) a:before {
  content: "\f08b";
 }
 
