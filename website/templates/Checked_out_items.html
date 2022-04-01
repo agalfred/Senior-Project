@@ -50,6 +50,7 @@
                             <th>#</th>
                             <th>Item product ID</th>
                             <th>Date checked-out</th> <!--date created -->
+                            <th>Reason</th>
                             <th>Quantity</th>
                             <th>Checked out by</th>
                             <th>Check-in!</th>                          
@@ -60,6 +61,7 @@
                               <th>{{row.id}}</th>
                               <th>{{row.product_id}}</th>
                               <th>{{row.date_borrowed}}</th>
+                              <th>{{row.reason}}</th>
                               <th>{{row.quantity}}</th>
                               <th>P000{{row.borrower}}</th>
                               <th><a style="text-decoration:none" href="/user/Check-in-confirmed/{{row.id}}">Return</a></th>

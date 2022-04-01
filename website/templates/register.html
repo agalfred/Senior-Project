@@ -4,7 +4,7 @@
 <form method="POST">
     <!--<h1 align="center">Send Registration Link!</h1>-->
     <div class="form-group">
-        {% if user.is_authenticated %}
+        {% if session['SCHOOL_ID'] and session['FNAME'] and session['LNAME'] and session['DATE'] and session['SF'] and user.is_authenticated %}
         <div>
             <label><p id="logp">You are currently logged in </label><a href="{{ url_for('views.user') }}">click here to redirect you to user page!</a></p> 
         </div>

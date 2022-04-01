@@ -75,17 +75,18 @@ def Confirmed_Check_in(id):
 def Check_out():
     if session.get("id",None) is not None:
         if request.method == 'POST':
-            products_id = request.form.get("product_id")    
+            products_id = request.form.get("product_id")  
+            reason = request.form.get("reason")  
             quantity = 1    ##can only check one item a time
 
             product = Inventory.query.filter_by(product_id=products_id).first()
             
-            if products_id == '':             
+            if products_id == '' or reason == '':             
                 flash("Cannot be empty",category="success")
                 return redirect(request.url)
             else:
                 if re.search(pidpattern, products_id) and product:
-                    borrowing = Borroweditem(product_id=products_id, quantity=quantity, borrower=current_user.s_id)
+                    borrowing = Borroweditem(product_id=products_id, quantity=quantity, reason=reason, borrower=current_user.s_id)
                     db.session.add(borrowing)
                     db.session.commit()
 

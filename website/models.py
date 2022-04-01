@@ -21,6 +21,7 @@ class Borroweditem(db.Model):
     product_id= db.Column(db.Integer)
     quantity = db.Column(db.Integer)
     date_borrowed = db.Column(db.DateTime(timezone=True), default=func.now())
+    reason = db.Column(db.String(200))
     borrower = db.Column(db.Integer, db.ForeignKey('user.s_id', ondelete="CASCADE"),nullable=False) ##foreign key relationship
 
 class Inventory(db.Model):
