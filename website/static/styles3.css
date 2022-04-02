@@ -84,8 +84,10 @@ nav ul a:before {
   top: 15px;
   left: 18px;
 }
+/*grid logo looking*/
+/*
 nav ul li:nth-child(2) a:before {
- content: "\f00a";/*grid logo looking*/
+ content: "\f00a";
 }
 nav ul li:nth-child(3) a:before {
 	content: "\f024";
@@ -112,7 +114,24 @@ nav ul li:nth-child(10) a:before {
 nav ul li:nth-child(11) a:before {
  content: "\f08b";
 }
+*/
 
+.inv a:before {
+	content: "\f00a";
+}
+.move a:before {
+	content: "\f024";
+}
+.edit a:before {
+	content: "\f0fa";
+}
+
+.acc a:before {
+	content: "\f085";
+   }
+.logout a:before {
+	content: "\f08b";
+   }
 
  main {
 	 flex: 1;

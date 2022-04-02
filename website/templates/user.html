@@ -21,17 +21,19 @@
           </header>
           <ul>
             <li><span>Navigation</span></li>
-            <li><a class="active" style="text-decoration:none" href="{{url_for('views.user')}}">Inventory</a></li>
-            <li><a style="text-decoration:none" href="{{url_for('views.add')}}">Add Item</a></li>
-            <li><a style="text-decoration:none" href="{{url_for('views.edit')}}">Edit Item</a></li>
-            <li><a style="text-decoration:none" href="{{url_for('views.delete')}}">Delete Item</a></li>
-            <li><a style="text-decoration:none" href="{{url_for('views.Check_in')}}">Check-in</a></li>
-            <li><a style="text-decoration:none" href="{{url_for('views.Check_out')}}">Check-out</a></li>
-            <li><a style="text-decoration:none" href="{{url_for('views.Checked')}}">Checked-out</a></li>
+            <li class="inv"><a class="active" style="text-decoration:none" href="{{url_for('views.user')}}">Inventory</a></li>
+            <li class="move"><a style="text-decoration:none" href="{{url_for('views.Check_in')}}">Check-in</a></li>
+            <li class="move"><a style="text-decoration:none" href="{{url_for('views.Check_out')}}">Check-out</a></li>
+            {% if session['ISstaff'] and session['id'] %}
+            <li class="move"><a style="text-decoration:none" href="{{url_for('views.Checked')}}">Checked-out</a></li>
+            <li class="edit"><a style="text-decoration:none" href="{{url_for('views.add')}}">Add Item</a></li>
+            <li class="edit"><a style="text-decoration:none" href="{{url_for('views.edit')}}">Edit Item</a></li>
+            <li class="edit"><a style="text-decoration:none" href="{{url_for('views.delete')}}">Delete Item</a></li>
+            {% endif %}
             <li><span>Other</span></li>
-            <li><a style="text-decoration:none" href="{{url_for('views.account_info')}}">Account Info</a></li>
+            <li class="acc"><a style="text-decoration:none" href="{{url_for('views.account_info')}}">Account Info</a></li>
             <!--<li><a>Settings</a></li>-->
-            <li><a style="text-decoration:none" href="{{url_for('auth.logout')}}">Logout</a></li>
+            <li class="logout"><a style="text-decoration:none" href="{{url_for('auth.logout')}}">Logout</a></li>
           </ul>      
         </nav>     
         <main>     
@@ -49,7 +51,10 @@
                             <th>Date Added</th>
                             <th>Item location</th>
                             <th>Group</th>
-                            <th>Quantity</th>                        
+                            <th>Quantity</th>
+                            {% if session['ISstaff'] and session['id'] %}
+                            <th>Test</th> 
+                            {% endif %}
                         </tr>
                         </thead>
 
@@ -63,6 +68,9 @@
                               <th>{{row.i_loc}}</th>
                               <th>{{row.group}}</th>
                               <th>{{row.quantity}}</th>
+                              {% if session['ISstaff'] and session['id'] %}
+                              <th>Test</th> 
+                              {% endif %}
                           </tr>
                           {% endfor %}
                         </tbody>                     

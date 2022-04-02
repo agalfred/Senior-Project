@@ -46,7 +46,7 @@ def Check_in():
         flash("You do not have access to this page! Pls, Log in!", category="error")
         return redirect(url_for('views.home'))
 
-@views.route("/user/Check_out_items")
+@views.route("/user/Checked_out_items")
 @login_required
 def Checked():
     if session.get("id",None) is not None and session.get("sf", "Staff"):

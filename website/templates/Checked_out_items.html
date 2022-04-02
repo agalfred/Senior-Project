@@ -14,7 +14,6 @@
     
 </head>
 <body>
-  {% if session['ISstaff'] and session['id'] %}
     <div class="wrapper">
         <nav>     
           <header>
@@ -24,20 +23,23 @@
           </header>
           <ul>
             <li><span>Navigation</span></li>
-            <li><a style="text-decoration:none" href="{{url_for('views.user')}}">Inventory</a></li>
-            <li><a style="text-decoration:none" href="{{url_for('views.user')}}">Add Item</a></li>
-            <li><a style="text-decoration:none" href="{{url_for('views.user')}}">Edit Item</a></li>
-            <li><a style="text-decoration:none" href="{{url_for('views.user')}}">Delete Item</a></li>
-            <li><a class="active" style="text-decoration:none" href="{{url_for('views.Check_in')}}">Check-in</a></li>
-            <li><a style="text-decoration:none" href="{{url_for('views.Check_out')}}">Check-out</a></li>
-            <li><a style="text-decoration:none" href="{{url_for('views.Checked')}}">Checked-out</a></li>
+            <li class="inv"><a style="text-decoration:none" href="{{url_for('views.user')}}">Inventory</a></li>
+            <li class="move"><a style="text-decoration:none" href="{{url_for('views.Check_in')}}">Check-in</a></li>
+            <li class="move"><a style="text-decoration:none" href="{{url_for('views.Check_out')}}">Check-out</a></li>
+            {% if session['ISstaff'] and session['id'] %}
+            <li class="move"><a class="active" style="text-decoration:none" href="{{url_for('views.Checked')}}">Checked-out</a></li>
+            <li class="edit"><a style="text-decoration:none" href="{{url_for('views.add')}}">Add Item</a></li>
+            <li class="edit"><a style="text-decoration:none" href="{{url_for('views.edit')}}">Edit Item</a></li>
+            <li class="edit"><a style="text-decoration:none" href="{{url_for('views.delete')}}">Delete Item</a></li>
+            {% endif %}
             <li><span>Other</span></li>
-            <li><a style="text-decoration:none" href="{{url_for('views.account_info')}}">Account Info</a></li>
+            <li class="acc"><a style="text-decoration:none" href="{{url_for('views.account_info')}}">Account Info</a></li>
             <!--<li><a>Settings</a></li>-->
-            <li><a style="text-decoration:none" href="{{url_for('auth.logout')}}">Logout</a></li>
+            <li class="logout"><a style="text-decoration:none" href="{{url_for('auth.logout')}}">Logout</a></li>
           </ul>        
         </nav>
-      
+
+        {% if session['ISstaff'] and session['id'] %}
         <main>     
           <h1>P{{session['SCHOOL_ID']}}'s DASHBOARD</h1>
           <div class="container-fluid">
@@ -75,13 +77,14 @@
                 </div>
            </div>
         </div>
-        </main>      
-      </div>
-      {% else %}
+        {% else %}
         <div>
           <a style="text-decoration:none" style="align-items:center" href="{{url_for('views.user')}}">You don't have access to add to the Inventory!</a>
       </div>
       {% endif %}
+        </main>      
+      </div>
+      
 <script>
 $(document).ready(function() {
     $('#empTable').DataTable({
