@@ -18,7 +18,7 @@ serializer = URLSafeTimedSerializer('VdJeu8dSmW-55Zwk')
 ##regex patterns for input validation
 emailpattern='^[a-z 0-9]+[\._]?[a-z 0-9]+[@]\w+[.]\w{2,3}$'
 namepattern ='[A-Za-z]{2,25}||\s[A-Za-z]{2,25}'##for first and last name can have a space in between 
-zippattern = '^[0-9]{5}$'
+## PP: zippattern = '^[0-9]{5}$'
 phonepattern ='^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$'
 schoolidpattern='^[0]{3}[0-9]{6}$'
 bdaypattern='^[0-9]{4}[-][0-9]{2}[-][0-9]{2}$'
@@ -119,7 +119,7 @@ def confirmed_registration(token):
         lname = request.form.get("lname")
         email = request.form.get("email")
         s_id = request.form.get("s_id")
-        zip = request.form.get("zip")
+        ## PP: zip = request.form.get("zip")
         telnum = request.form.get("telnum")##telephone number
         sf= "Student"##student or staff
         password = request.form.get("password1")
@@ -136,13 +136,16 @@ def confirmed_registration(token):
             return redirect(url_for("views.home"))
         else:
             ##maybe add firstname and lastname length validation
-            if email == '' or fname == '' or lname == ''or s_id=='' or zip == '' or telnum =='' or  sf == '' or confirmedpassword == '' or password == '':
+            if email == '' or fname == '' or lname == ''or s_id=='' or telnum =='' or  sf == '' or confirmedpassword == '' or password == '':
+                ##took out or zip == ''
                 flash("All input fields must be filled up",category="warning")
                 return redirect(request.url)
             else:
-                if re.search(emailpattern, email) and re.search(namepattern, lname) and re.search(namepattern,fname) and re.search(phonepattern,telnum) and re.search(zippattern,zip) and re.search(schoolidpattern, s_id) and sf == 'Staff' or sf =='Student':
+                if re.search(emailpattern, email) and re.search(namepattern, lname) and re.search(namepattern,fname) and re.search(phonepattern,telnum) and re.search(schoolidpattern, s_id) and sf == 'Staff' or sf =='Student':
+                    ## PP: took out and re.search(zippattern,zip) 
                     if password == confirmedpassword and len(password)>=6:
-                        new_user = User(email=email, telnum=telnum,s_id=s_id, fname=fname, lname=lname, password=generate_password_hash(password, method='sha256'), sf=sf, zip=zip) ##stores user input using the model created
+                        new_user = User(email=email, telnum=telnum,s_id=s_id, fname=fname, lname=lname, password=generate_password_hash(password, method='sha256'), sf=sf,) ##stores user input using the model created
+                        ##PP: Took out zip=zip
                         db.session.add(new_user)
                         db.session.commit()
                         login_user(new_user, remember=True)                   
@@ -203,19 +206,22 @@ def confirmedforgot_password(token):
     if request.method == 'POST':
         email = request.form.get("email")
         s_id = request.form.get("s_id")
-        zip = request.form.get("zip")
+        ## PP: zip = request.form.get("zip")
         telnum = request.form.get("telnum")
         password = request.form.get("password1")
         confirmpassword = request.form.get("password2")
 
         user = User.query.filter_by(email=email).first()
         
-        if email == '' or s_id == '' or zip == '' or telnum == '' or password == '' or confirmpassword == '':
+        if email == '' or s_id == ''  or telnum == '' or password == '' or confirmpassword == '':
+            ## PP: took out or zip == ''
             flash("All fields are required", category="warning")
             return redirect(request.url)
         else:
-            if re.search(emailpattern, email) and re.search(phonepattern,telnum) and re.search(zippattern,zip) and re.search(schoolidpattern, s_id):
-                if user.email == email and user.zip ==zip and user.telnum == telnum:
+            if re.search(emailpattern, email) and re.search(phonepattern,telnum) and re.search(schoolidpattern, s_id):
+                ## PP: took out and re.search(zippattern,zip) 
+                if user.email == email and user.telnum == telnum:
+                    ## PP: Took out and user.zip ==zip 
                     if password==confirmpassword and len(password)>=6:
                         flash("Password successfully changed", category="success")
                         user.password = generate_password_hash(password, method='sha256')

@@ -11,7 +11,7 @@ class User(db.Model, UserMixin):##usermixin makes it easier for user login
     lname = db.Column(db.String(50))
     password = db.Column(db.String(15))
     sf = db.Column(db.String(7))
-    zip = db.Column(db.String(5))
+    ## PP: zip = db.Column(db.String(5))
     date_created = db.Column(db.DateTime(timezone=True), default=func.now())
     borroweditems= db.relationship('Borroweditem', backref='user',passive_deletes=True)##reference all borroweditems##relationship with db
     creators= db.relationship('Inventory', backref='user',passive_deletes=True)##reference all borroweditems##relationship with db

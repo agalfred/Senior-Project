@@ -15,7 +15,7 @@ quantitypattern = '^[0-9]*$'
 @views.route("/")
 @views.route("/home")
 def home():
-    return render_template("home.html"), {"Refresh": "5; url=login"}
+    return render_template("home.html"), {"Refresh": "4.5; url=login"} ## PP: changed the refresh to 4.5
                        
 @views.route("/user")
 @login_required## needs to be logged in to be accessed

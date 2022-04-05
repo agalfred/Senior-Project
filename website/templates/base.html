@@ -16,6 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
 </head>
 <body>
+        <!--
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
                 <button 
@@ -26,14 +27,17 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbar">
+                
                 <div class="navbar-nav">
-                    <!-- <a class="nav-item nav-link" href="{{url_for('views.home')}}">Home</a> -->
+                    <a class="nav-item nav-link" href="{{url_for('views.home')}}">Home</a>
                     <a class="nav-item nav-link" href="{{url_for('auth.login')}}">Login</a>
                     <a class="nav-item nav-link" href="{{url_for('auth.register')}}">Register</a>
                 </div>
               </div>
             </div>
         </nav>
+        PP: got rid of nav, made everything access on login
+        -->
        
         {% with messages = get_flashed_messages(with_categories=true)%}
          {% if messages %}
