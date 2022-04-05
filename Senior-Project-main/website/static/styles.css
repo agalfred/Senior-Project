@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito&display=swap');
+
+h1{
+    font-size: 50px;
+    font-family: 'Nunito',sans-serif;
+}
+
+p#logp{
+  font-size: 16px;
+}
+
+section{
+    display:flex;
+    align-items:center;
+    justify-content: center;
+    height:100vh;
+    font-size: 50px;
+    color: white;
+    font-family: 'Nunito',sans-serif;   
+}
+
+.line{
+    font-size: 50px;
+    border-right:solid 2px rgba(255,255,255,0.7);
+    white-space:nowrap;
+    overflow:hidden;
+    width: 32ch;
+    animation: typewriter 3s steps(32) 1s , cursor 500ms steps(32) infinite;
+}
+@keyframes typewriter {
+    0%{width:0;}
+    100%{width:32ch;}
+}
+@keyframes cursor {
+    0%{border-right-color: rgba(255,255,255,0.7);}
+    100%{border-right-color: transparent;}
+}
+
+.gradient{
+    background: linear-gradient(45deg,#0f090a,#361215,#3b1014,#4a1116,#5e0d15);
+    animation: movinggradient 5s ease infinite;
+    background-size: 200%;
+}
+@keyframes movinggradient {
+    0%{
+        background-position: 0% 50%;
+    }
+    50%{
+        background-position: 100% 50%;
+    }
+    0%{
+        background-position: 0% 50%;
+    }
+}
+
+
+@media (min-width: 1025px) {
+    .h-custom {
+      height: 100vh !important;
+    }
+  }
+  .card-registration .select-input.form-control[readonly]:not([disabled]) {
+    font-size: 1rem;
+    line-height: 2.15;
+    padding-left: .75em;
+    padding-right: .75em;
+  }
+  .card-registration .select-arrow {
+    top: 13px;
+  }
+  
+  .gradient-custom-2 {
+    /* fallback for old browsers */
+    background: #a1c4fd;
+  
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, rgba(161, 196, 253, 1), rgba(194, 233, 251, 1));
+  
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, rgba(161, 196, 253, 1), rgba(194, 233, 251, 1))
+  }
+  
+  .bg-indigo {
+    background-color: #4835d4;
+  }
+  @media (min-width: 992px) {
+    .card-registration-2 .bg-indigo {
+      border-top-right-radius: 15px;
+      border-bottom-right-radius: 15px;
+    }
+  }
+  @media (max-width: 991px) {
+    .card-registration-2 .bg-indigo {
+      border-bottom-left-radius: 15px;
+      border-bottom-right-radius: 15px;
+    }
+  }
