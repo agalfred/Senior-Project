@@ -12,7 +12,7 @@
     <div class="title">Edit an item</div>
     <div class="content"> 
       {% if session['ISstaff'] and session['id'] %}     
-      <form method="POST">
+      <form action="/user/Inventory/Edit" method="POST">
         {% with messages = get_flashed_messages(with_categories=true)%}
         {% if messages %}
           {% for category, message in messages%}
@@ -24,27 +24,28 @@
          {% endif %}
          {% endwith %}       
          <div class="user-details">
+          {% if data %}
           <div class="input-box">
             <span class="details">Enter an existing Product ID</span>
-            <input type="text" id="product_id" name ="product_id" placeholder="Enter Product ID" required>
+            <input type="text" id="product_id" name ="product_id" placeholder={{data.product_id}} value={{data.product_id}} required readonly>
           </div>
           <div class="input-box">
             <span class="details">Enter the correct Item Name corresponding to the Product ID</span>
-            <input type="text" id="product_name" name ="product_name" placeholder="Enter Item Name" required>
+            <input type="text" id="product_name" name ="product_name" placeholder={{data.product_name}} value="{{data.product_name}}" required readonly>
           </div>
           <div class="input-box">
             <span class="details">Change the Description to </span>
-            <input type="text"  id="desc" name ="desc" placeholder="Enter Short description" required>
+            <input type="text"  id="desc" name ="desc" placeholder={{data.desc}} value="{{data.desc}}" required>
           </div>
           <div class="input-box">
             <span class="details">Change the Item Location</span>
-            <input type="text"  id="i_loc" name ="i_loc" placeholder="Enter Item Location" required>
+            <input type="text"  id="i_loc" name ="i_loc" placeholder={{data.i_loc}} value="{{data.i_loc}}" required>
           </div>
           <div class="input-box">
             <span class="details">Change the Quantity</span>
-            <input type="text"  id="quantity" name ="quantity" placeholder="Enter Amount" required>
+            <input type="text"  id="quantity" name ="quantity" placeholder={{data.quantity}} value={{data.quantity}} required>
           </div>
-          
+          {% endif %}
         </div>
         <div class="button">
           <input type="submit" value="Submit">

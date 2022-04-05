@@ -27,7 +27,6 @@
             {% if session['ISstaff'] and session['id'] %}
             <li class="move"><a style="text-decoration:none" href="{{url_for('views.Checked')}}">Checked-out</a></li>
             <li class="edit"><a style="text-decoration:none" href="{{url_for('views.add')}}">Add Item</a></li>
-            <li class="edit"><a style="text-decoration:none" href="{{url_for('views.edit')}}">Edit Item</a></li>
             <li class="edit"><a style="text-decoration:none" href="{{url_for('views.delete')}}">Delete Item</a></li>
             {% endif %}
             <li><span>Other</span></li>

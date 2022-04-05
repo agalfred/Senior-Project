@@ -153,6 +153,16 @@ def add():
         flash("You do not have access to this page!", category="error")
         return redirect(url_for('views.home'))
 
+@views.route("/user/Inventory/Edit_Check/<id>")
+@login_required
+def edit_check(id):
+    if session.get("id",None) is not None:
+        product = Inventory.query.filter_by(id = id).first()
+        return render_template("edit.html",user=current_user, data = product) 
+    else:
+        flash("You do not have access to this page!", category="error")
+        return redirect(url_for('views.home'))
+
 @views.route("/user/Inventory/Edit",methods=["GET", "POST"])
 @login_required
 def edit():
@@ -169,7 +179,7 @@ def edit():
             if product and product_name == product.product_name and product.Creator == session['id']:
                 if products_id == '' and product_name == '' and desc == '' and i_loc =='' and quantity =='':
                     flash("Fields Cannot be empty",category="error")
-                    return redirect(request.url)
+                    redirect(url_for('views.edit_check', id=product.id))
                 else:
                     if re.search(strpattern,desc) and re.search(strpattern,i_loc) and re.search(quantitypattern,quantity) and int(quantity)>0:
                         product.desc=desc
@@ -177,10 +187,10 @@ def edit():
                         product.quantity=quantity
                         db.session.commit()                 
                         flash("Changed des, location, or quantity successfully",category="success")
-                        redirect(request.url)
+                        return redirect(url_for('views.user'))
                     else:
                         flash("Error in input",category="error")
-                        redirect(request.url)                    
+                        redirect(url_for('views.edit_check', id=product.id))                    
             else:
                 flash("Item does not exist or you dont have the ability to edit this since you never created it",category="error")
                 return redirect(request.url)
