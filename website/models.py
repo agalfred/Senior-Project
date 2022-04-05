@@ -15,6 +15,7 @@ class User(db.Model, UserMixin):##usermixin makes it easier for user login
     date_created = db.Column(db.DateTime(timezone=True), default=func.now())
     borroweditems= db.relationship('Borroweditem', backref='user',passive_deletes=True)##reference all borroweditems##relationship with db
     creators= db.relationship('Inventory', backref='user',passive_deletes=True)##reference all borroweditems##relationship with db
+    access= db.relationship('AccessRequest', backref='user',passive_deletes=True)
 
 class Borroweditem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -35,3 +36,10 @@ class Inventory(db.Model):
     group= db.Column(db.String(26))
     subgroup=db.Column(db.String(26))
     Creator = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"),nullable=False) ##foreign key relationship //id of who added it.
+
+class AccessRequest(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    requester = db.Column(db.String(320), db.ForeignKey('user.s_id', ondelete="CASCADE"),nullable=False)
+    fname = db.Column(db.String(26))
+    lname = db.Column(db.String(50))
+    date_requested = db.Column(db.DateTime(timezone=True), default=func.now())

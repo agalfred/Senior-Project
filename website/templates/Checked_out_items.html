@@ -33,6 +33,12 @@
             <li class="edit"><a style="text-decoration:none" href="{{url_for('views.delete')}}">Delete Item</a></li>
             {% endif %}
             <li><span>Other</span></li>
+            {% if not session['ISstaff'] and session['id'] %}
+            <li class="acc"><a style="text-decoration:none;" href="{{url_for('auth.get_access')}}">Get Access</a></li>
+            {% endif %}
+            {% if session['ISstaff'] and session['id'] %}
+            <li class="acc"><a style="text-decoration:none;" href="{{url_for('views.access')}}">Requests</a></li>
+            {% endif %}
             <li class="acc"><a style="text-decoration:none" href="{{url_for('views.account_info')}}">Account Info</a></li>
             <!--<li><a>Settings</a></li>-->
             <li class="logout"><a style="text-decoration:none" href="{{url_for('auth.logout')}}">Logout</a></li>

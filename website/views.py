@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from flask import current_app as app
 from flask import request,session,flash,url_for
 from .import db
-from .models import Borroweditem,Inventory
+from .models import AccessRequest, Borroweditem,Inventory
 import re
 
 views = Blueprint("views",__name__)
@@ -45,13 +45,6 @@ def Check_in():
     else:
         flash("You do not have access to this page! Pls, Log in!", category="error")
         return redirect(url_for('views.home'))
-
-@views.route("/user/Checked_out_items")
-@login_required
-def Checked():
-    if session.get("id",None) is not None and session.get("sf", "Staff"):
-        itemsborrowed = Borroweditem.query.all()
-        return render_template("Checked_out_items.html",user = current_user, data=itemsborrowed)
 
 @views.route("user/Check-in-confirmed/<id>")
 @login_required
@@ -101,6 +94,26 @@ def Check_out():
         return render_template("Check-out.html",user=current_user)
     else:
         flash("You do not have access to this page!", category="error")
+        return redirect(url_for('views.home'))
+
+@views.route("/user/Checked_out_items")
+@login_required
+def Checked():
+    if session.get("id",None) is not None and session.get("sf", "Staff"):
+        itemsborrowed = Borroweditem.query.all()
+        return render_template("Checked_out_items.html",user = current_user, data=itemsborrowed)
+    else:
+        flash("You do not have access to this page! Pls, Log in!", category="error")
+        return redirect(url_for('views.home'))
+
+@views.route("/user/access-request")
+@login_required
+def access():
+    if session.get("id",None) is not None and session.get("sf", "Staff"):
+        requests = AccessRequest.query.all()
+        return render_template("access-request.html",user = current_user, data=requests)
+    else:
+        flash("You do not have access to this page! Pls, Log in!", category="error")
         return redirect(url_for('views.home'))
 
 @views.route("/user/Inventory/Add",methods=['GET', 'POST'])

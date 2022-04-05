@@ -5,7 +5,7 @@ from itsdangerous import URLSafeTimedSerializer
 from flask_mail import Message, Mail
 from .import db 
 from .import sess
-from .models import User,Inventory
+from .models import AccessRequest, User,Inventory
 from flask_login import login_user,logout_user,login_required,current_user
 from werkzeug.security import generate_password_hash, check_password_hash ##used to hash password. Instead of storing passwords in plain text
 import re
@@ -121,7 +121,7 @@ def confirmed_registration(token):
         s_id = request.form.get("s_id")
         zip = request.form.get("zip")
         telnum = request.form.get("telnum")##telephone number
-        sf= request.form.get("sf")##student or staff
+        sf= "Student"##student or staff
         password = request.form.get("password1")
         confirmedpassword = request.form.get("password2")
 
@@ -232,6 +232,52 @@ def confirmedforgot_password(token):
                 return redirect(request.url)
  
     return render_template("confirmedforgot_password.html")
+
+@auth.route("/get-access")
+@login_required
+def get_access():
+    if session.get("id",None) is not None and session.get("ISstaff", None) is None:
+        requesters = session.get("SCHOOL_ID")
+        fname = session.get("FNAME")
+        lname = session.get("LNAME")
+        requester = AccessRequest.query.filter_by(requester=requesters).first()
+
+        if requester:
+            flash("Your access is still being reviewed", category="error")
+            return redirect(url_for('views.user'))
+        else:
+            add = AccessRequest(requester=current_user.s_id, fname=fname, lname=lname)
+            db.session.add(add)
+            db.session.commit()
+            flash("Successfully requested access. Under review by staff.", category="success")
+        return redirect(url_for('views.user'))
+    else:
+        flash("You already have staff level access", category="error")
+        return redirect(url_for('views.user'))
+
+@auth.route("/allow-access/<id>")
+@login_required
+def allow_access(id):
+    if session.get("id",None) is not None:
+        requester = AccessRequest.query.filter_by(id=id).first()
+
+        updateStatus = User.query.filter_by(s_id=requester.requester).first()
+        updateStatus.sf = "Staff"
+        db.session.commit()
+
+        db.session.delete(requester)
+        db.session.commit()
+    return redirect(url_for("views.access"))
+
+@auth.route("/deny-access/<id>")
+@login_required
+def deny_access(id):
+    if session.get("id",None) is not None:
+        requester = AccessRequest.query.filter_by(id=id).first()
+
+        db.session.delete(requester)
+        db.session.commit()
+    return redirect(url_for("views.access"))
 
 @auth.route("/logout")##logouts user deletes sessions and logout func deletes the remember me saved cookies 
 @login_required
