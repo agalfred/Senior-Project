@@ -13,9 +13,9 @@ strpattern ='[A-Za-z]{2,25}||\s[A-Za-z]{2,200}'
 quantitypattern = '^[0-9]*$'
 
 @views.route("/")
-@views.route("/home")
+@views.route("/login")
 def home():
-    return render_template("home.html"), {"Refresh": "4.5; url=login"} ## PP: changed the refresh to 4.5
+    return render_template("login.html") ## PP: got rid of refesh 
                        
 @views.route("/user")
 @login_required## needs to be logged in to be accessed
