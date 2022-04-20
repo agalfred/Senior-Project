@@ -63,38 +63,6 @@ def Confirmed_Check_in(id):
         flash("Currently not logged in!", category="error")
         return redirect(url_for('views.home'))
 
-@views.route("/user/Check-out",methods=['GET', 'POST'])
-@login_required
-def Check_out():
-    if session.get("id",None) is not None:
-        if request.method == 'POST':
-            products_id = request.form.get("product_id")  
-            reason = request.form.get("reason")  
-            quantity = 1    ##can only check one item a time
-
-            product = Inventory.query.filter_by(product_id=products_id).first()
-            
-            if products_id == '' or reason == '':             
-                flash("Cannot be empty",category="success")
-                return redirect(request.url)
-            else:
-                if re.search(pidpattern, products_id) and product:
-                    borrowing = Borroweditem(product_id=products_id, quantity=quantity, reason=reason, borrower=current_user.s_id)
-                    db.session.add(borrowing)
-                    db.session.commit()
-
-                    product.quantity = product.quantity - quantity
-                    db.session.commit()
-
-                    flash("Successfully borrowed.",category="success")
-                    return redirect(request.url)
-                else:
-                    flash("Error Product ID.Pls Check input.",category="error")
-                    return redirect(request.url)
-        return render_template("Check-out.html",user=current_user)
-    else:
-        flash("You do not have access to this page!", category="error")
-        return redirect(url_for('views.home'))
 
 @views.route("/user/Checked_out_items")
 @login_required
@@ -153,6 +121,51 @@ def add():
         flash("You do not have access to this page!", category="error")
         return redirect(url_for('views.home'))
 
+@views.route("/user/Inventory/Check_out", methods=["GET", "POST"])
+@login_required
+def Check_out():
+    if session.get("id",None) is not None:
+        if request.method == 'POST':
+            if request.form['submit_button'] == "Submit":
+                products_id = request.form.get("product_id")  
+                reason = request.form.get("reason")  
+                quantity = 1    ##can only check one item a time
+
+                product = Inventory.query.filter_by(product_id=products_id).first()
+        
+                if products_id == '' or reason == '':             
+                    flash("Cannot be empty",category="success")
+                    return redirect(request.url)
+                else:
+                    if re.search(pidpattern, products_id) and product:
+                        borrowing = Borroweditem(product_id=products_id, quantity=quantity, reason=reason, borrower=current_user.s_id)
+                        db.session.add(borrowing)
+                        db.session.commit()
+
+                        product.quantity = product.quantity - quantity
+                        db.session.commit()
+
+                        flash("Successfully borrowed.",category="success")
+                        return redirect(url_for('views.user'))
+                    else:
+                        flash("Error Product ID.Pls Check input.",category="error")
+                        return redirect(request.url)
+            
+        return render_template("Check-out.html",user=current_user)
+    else:
+        flash("You do not have access to this page!", category="error")
+        return redirect(url_for('views.home'))
+
+@views.route("/user/Inventory/Check_Out_Check/<id>")
+@login_required
+def check_out_check(id):
+    if session.get("id",None) is not None:
+        product = Inventory.query.filter_by(id = id).first()
+        return render_template("Check-out.html",user=current_user, data = product) 
+    else:
+        flash("You do not have access to this page!", category="error")
+        return redirect(url_for('views.home'))
+
 @views.route("/user/Inventory/Edit_Check/<id>")
 @login_required
 def edit_check(id):
@@ -168,58 +181,46 @@ def edit_check(id):
 def edit():
     if session.get("id",None) is not None:
         if request.method == 'POST':
-            products_id = request.form.get("product_id")
-            product_name =request.form.get("product_name")
-            desc= request.form.get("desc")
-            i_loc= request.form.get("i_loc")
-            quantity= request.form.get("quantity")
+            if request.form['submit_button'] == "Submit":
+                products_id = request.form.get("product_id")
+                product_name = request.form.get("product_name")
+                desc = request.form.get("desc")
+                i_loc = request.form.get("i_loc")
+                quantity = request.form.get("quantity")
                        
-            product = Inventory.query.filter_by(product_id=products_id).first()
+                product = Inventory.query.filter_by(product_id=products_id).first()
 
-            if product and product_name == product.product_name and product.Creator == session['id']:
-                if products_id == '' and product_name == '' and desc == '' and i_loc =='' and quantity =='':
-                    flash("Fields Cannot be empty",category="error")
-                    redirect(url_for('views.edit_check', id=product.id))
-                else:
-                    if re.search(strpattern,desc) and re.search(strpattern,i_loc) and re.search(quantitypattern,quantity) and int(quantity)>0:
-                        product.desc=desc
-                        product.i_loc=i_loc
-                        product.quantity=quantity
-                        db.session.commit()                 
-                        flash("Changed des, location, or quantity successfully",category="success")
-                        return redirect(url_for('views.user'))
+                if product and product_name == product.product_name:
+                    if products_id == '' and product_name == '' and desc == '' and i_loc =='' and quantity =='':
+                        flash("Fields Cannot be empty",category="error")
+                        redirect(url_for('views.edit_check', id=product.id))
                     else:
-                        flash("Error in input",category="error")
-                        redirect(url_for('views.edit_check', id=product.id))                    
-            else:
-                flash("Item does not exist or you dont have the ability to edit this since you never created it",category="error")
-                return redirect(request.url)
-        return render_template("edit.html",user=current_user)       
-    else:
-        flash("You do not have access to this page!", category="error")
-        return redirect(url_for('views.home'))
-    
-@views.route("/user/Inventory/Delete", methods=['GET', 'POST'])
-@login_required
-def delete():
-        if session.get("id",None) is not None:
-            if request.method == 'POST':
+                        if re.search(strpattern,desc) and re.search(strpattern,i_loc) and re.search(quantitypattern,quantity) and int(quantity)>0:
+                            product.desc=desc
+                            product.i_loc=i_loc
+                            product.quantity=quantity
+                            db.session.commit()                 
+                            flash("Changed des, location, or quantity successfully",category="success")
+                            return redirect(url_for('views.user'))
+                        else:
+                            flash("Error in input",category="error")
+                            redirect(url_for('views.edit_check', id=product.id))                    
+            elif request.form['submit_button'] == 'Delete Item':
                 products_id = request.form.get("product_id")
                 product_name =request.form.get("product_name")
                        
                 product = Inventory.query.filter_by(product_id=products_id).first()
 
-                if product and product_name == product.product_name and product.Creator == session['id']:                    
-                    flash("Deleted successfully",category="sucess")
+                if product and product_name == product.product_name:                    
                     db.session.delete(product)
                     db.session.commit()
-                    return redirect(request.url)
+                    return redirect(url_for('views.user'))
+       
                 else:
-                    flash("Item does not exist or you dont have the ability to delete this since you never created it",category="error")
-                    return redirect(request.url)
-               
-            return render_template("delete.html",user=current_user)       
-        else:
-            flash("You do not have access to this page!", category="error")
-            return redirect(url_for('views.home'))
-
+                    flash("Item does not exist",category="error")
+                    return redirect(url_for('views.user'))
+        return render_template("edit.html",user=current_user)       
+    else:
+        flash("You do not have access to this page!", category="error")
+        return redirect(url_for('views.home'))
+    

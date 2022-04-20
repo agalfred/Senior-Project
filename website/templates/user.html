@@ -23,12 +23,11 @@
             <li><span>Navigation</span></li>
             <li class="inv"><a class="active" style="text-decoration:none" href="{{url_for('views.user')}}">Inventory</a></li>
             <li class="move"><a style="text-decoration:none" href="{{url_for('views.Check_in')}}">Check-in</a></li>
-            <li class="move"><a style="text-decoration:none" href="{{url_for('views.Check_out')}}">Check-out</a></li>
             {% if session['ISstaff'] and session['id'] %}
             <li class="move"><a style="text-decoration:none" href="{{url_for('views.Checked')}}">Checked-out</a></li>
             <li class="edit"><a style="text-decoration:none" href="{{url_for('views.add')}}">Add Item</a></li>
 
-            <li class="edit"><a style="text-decoration:none" href="{{url_for('views.delete')}}">Delete Item</a></li>
+            
             {% endif %}
             <li><span>Other</span></li>
             {% if not session['ISstaff'] and session['id'] %}
@@ -58,6 +57,7 @@
                             <th>Item location</th>
                             <th>Group</th>
                             <th>Quantity</th>
+                            <th>Add to Cart</th>
                             {% if session['ISstaff'] and session['id'] %}
                             <th>Edit</th> 
                             {% endif %}
@@ -74,6 +74,7 @@
                               <th>{{row.i_loc}}</th>
                               <th>{{row.group}}</th>
                               <th>{{row.quantity}}</th>
+                              <th><a style="text-decoration:none" href="/user/Inventory/Check_Out_Check/{{row.id}}">X</a></th>
                               {% if session['ISstaff'] and session['id'] %}
                               <th><a style="text-decoration:none" href="/user/Inventory/Edit_Check/{{row.id}}">X</a></th> 
                               {% endif %}

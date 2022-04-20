@@ -12,7 +12,7 @@
   <div class="container">
     <div class="title">Check-out an item form:</div>
     <div class="content">
-      <form method="POST">
+      <form action="/user/Inventory/Check_out" method="POST">
         {% with messages = get_flashed_messages(with_categories=true)%}
         {% if messages %}
           {% for category, message in messages%}
@@ -24,16 +24,17 @@
          {% endif %}
          {% endwith %}
          <div class="user-details">
+          {% if data %}
           <div class="input-box">
             <span class="details">Product ID</span>
-            <input type="text" id="product_id" name ="product_id" placeholder="Enter Product ID" required>
+            <input type="text" id="product_id" name ="product_id" placeholder={{data.product_id}} value={{data.product_id}} required readonly>
             <span class="details">Reason for Check-out</span>
             <input type="text" id="reason" name ="reason" placeholder="Enter Reason for Check-out" required>
           </div>
-        
+          {% endif %}
         </div>
         <div class="button">
-          <input type="submit" value="Submit">
+          <input type="submit" name="submit_button" value="Submit">
         </div>
         <div>
             <a style="text-decoration:none" style="align-items:center" href="{{url_for('views.user')}}">Click here to cancel or go back to dashboard!</a>

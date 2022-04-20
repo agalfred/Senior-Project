@@ -26,11 +26,10 @@
             <li><span>Navigation</span></li>
             <li class="inv"><a style="text-decoration:none" href="{{url_for('views.user')}}">Inventory</a></li>
             <li class="move"><a class="active" style="text-decoration:none" href="{{url_for('views.Check_in')}}">Check-in</a></li>
-            <li class="move"><a style="text-decoration:none" href="{{url_for('views.Check_out')}}">Check-out</a></li>
             {% if session['ISstaff'] and session['id'] %}
             <li class="move"><a style="text-decoration:none" href="{{url_for('views.Checked')}}">Checked-out</a></li>
             <li class="edit"><a style="text-decoration:none" href="{{url_for('views.add')}}">Add Item</a></li>
-            <li class="edit"><a style="text-decoration:none" href="{{url_for('views.delete')}}">Delete Item</a></li>
+            
             {% endif %}
             <li><span>Other</span></li>
             {% if not session['ISstaff'] and session['id'] %}
