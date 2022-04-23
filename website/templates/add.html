@@ -43,7 +43,7 @@
           </div>
           <div class="input-box">
             <span class="details">Subgroup </span>
-            <input type="text"  id="desc" name ="desc" placeholder="Enter Item Subgroup"> <!--made Subgroup not Req-->
+            <input type="text"  id="subgroup" name ="subgroup" placeholder="Enter Item Subgroup"> <!--made Subgroup not Req-->
           </div>
           <div class="input-box">
             <span class="details">Item Location*</span>
@@ -54,8 +54,16 @@
             <input type="number"  id="quantity" name ="quantity" placeholder="Enter Amount" required min="1" max="20000">
           </div>
           <div class="input-box">
-            <span class="details">Is Item Disposable?*</span>
-            <input type="checkbox" id="disposable" name="dispose" required>          
+            <span class="details">Is Item Disposable?</span>
+            <input type="checkbox" id="dispose" name="dispose" value="True">          
+          </div>
+          <div class="input-box">
+            <span class="details">Track inventory</span>
+            <input type="checkbox" id="tracklow" name="tracklow" value="True">
+          </div>
+          <div id="lownum-box" class="input-box">
+            <span class="">Low Number</span>
+            <input type="number"  id="lownum" name ="lownum" placeholder="Enter Low Amount" min="0" max="20000">
           </div>
         </div>
         <p>* Required</p>

@@ -2,6 +2,8 @@ from flask import Blueprint, render_template, flash, redirect
 from flask_login import login_required, current_user
 from flask import current_app as app
 from flask import request,session,flash,url_for
+
+from website.auth import track_inv
 from .import db
 from .models import AccessRequest, Borroweditem,Inventory
 import re
@@ -53,8 +55,10 @@ def Confirmed_Check_in(id):
         item = Borroweditem.query.filter_by(id=id).first()#querys the item from the given html row.id
         
         returnitemtoinv = Inventory.query.filter_by(product_id=item.product_id).first()##from that item, searches for the productid from inventory and adds back the quantity taken out
-        returnitemtoinv.quantity = returnitemtoinv.quantity + item.quantity
-        db.session.commit()
+        if returnitemtoinv.dispose != True:
+            returnitemtoinv.quantity = returnitemtoinv.quantity + item.quantity
+            db.session.commit()
+        
         ##deletes the item nowfrom the borroweditem database
         db.session.delete(item)
         db.session.commit()
@@ -96,6 +100,9 @@ def add():
             subgroup = request.form.get("subgroup")
             i_loc= request.form.get("i_loc")
             quantity= request.form.get("quantity")##can only check one item a time
+            dispose = request.form.get("dispose")
+            tracklow = request.form.get("tracklow")
+            lownum = request.form.get("lownum")
                        
             product_id = Inventory.query.filter_by(product_id=products_id).first()
 
@@ -108,8 +115,16 @@ def add():
                     return redirect(request.url)
                 else:
                     ##add input validation here regex
-                    if re.search(pidpattern,products_id) and re.search(strpattern,product_name) and re.search(strpattern,group) and re.search(strpattern,desc) and re.search(strpattern,i_loc) and re.search(quantitypattern,quantity) and int(quantity)>0:                    
-                        add = Inventory(product_id=products_id, product_name=product_name, quantity=quantity, desc=desc, group=group, subgroup=subgroup, i_loc=i_loc,Creator=current_user.id)
+                    if re.search(pidpattern,products_id) and re.search(strpattern,product_name) and re.search(strpattern,group) and re.search(strpattern,desc) and re.search(strpattern,i_loc) and re.search(quantitypattern,quantity) and int(quantity)>0:
+                        if dispose=="True":
+                            dispose=True
+                        else:
+                            dispose=False
+                        if tracklow=="True":
+                            tracklow=True
+                        else:
+                            tracklow=False
+                        add = Inventory(product_id=products_id, product_name=product_name, quantity=quantity, desc=desc, group=group, subgroup=subgroup, i_loc=i_loc, dispose=dispose, tracklow=tracklow, lownum=lownum, Creator=current_user.id)
                         db.session.add(add)
                         db.session.commit()
                         flash("Successfully added.",category="success")
@@ -129,7 +144,7 @@ def Check_out():
             if request.form['submit_button'] == "Submit":
                 products_id = request.form.get("product_id")  
                 reason = request.form.get("reason")  
-                quantity = 1    ##can only check one item a time
+                quantity = request.form.get("quantity")    ##changed to be able to check out up to the max on hand
 
                 product = Inventory.query.filter_by(product_id=products_id).first()
         
@@ -142,8 +157,10 @@ def Check_out():
                         db.session.add(borrowing)
                         db.session.commit()
 
-                        product.quantity = product.quantity - quantity
+                        product.quantity = product.quantity - int(quantity)
                         db.session.commit()
+
+                        track_inv(product.id)
 
                         flash("Successfully borrowed.",category="success")
                         return redirect(url_for('views.user'))

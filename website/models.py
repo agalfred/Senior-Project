@@ -36,7 +36,9 @@ class Inventory(db.Model):
     quantity= db.Column(db.Integer)
     group= db.Column(db.String(26))
     subgroup=db.Column(db.String(26))
-    ##dispose=db.Column(db.Boolean)
+    dispose=db.Column(db.Boolean)
+    tracklow=db.Column(db.Boolean)
+    lownum=db.Column(db.Integer)
     Creator = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"),nullable=False) ##foreign key relationship //id of who added it.
 
 class AccessRequest(db.Model):

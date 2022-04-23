@@ -239,6 +239,21 @@ def confirmedforgot_password(token):
  
     return render_template("confirmedforgot_password.html")
 
+@auth.route("/track-inv/<id>")
+@login_required
+def track_inv(id):
+    if session.get("id",None) is not None:
+        product = Inventory.query.filter_by(id = id).first()\
+        
+        if product.tracklow == True and product.quantity <= product.lownum:
+            app.config.get('mailconfig.cfg')
+            mail = Mail(app)
+            email = "andrew.alfred@stmartin.edu"
+            msg = Message('Low stock alert for SMU Nursing Inventory',sender = 'buakthaimuay@gmail.com',recipients=[email])
+            msg.body = "The item " + product.product_name + " has fallen below your requested inventory of " + str(product.lownum) + ". \nConsider restocking soon."
+            mail.send(msg)
+    return
+
 @auth.route("/get-access")
 @login_required
 def get_access():
