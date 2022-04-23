@@ -223,4 +223,13 @@ def edit():
     else:
         flash("You do not have access to this page!", category="error")
         return redirect(url_for('views.home'))
-    
+
+@views.route("/")
+@views.route("/help")
+def help():
+    if session.get("SCHOOL_ID", None) is not None and session.get("FNAME",None) is not None and session.get("LNAME",None) is not None and session.get("DATE",None) is not None and session.get("SF",None) is not None:
+        return render_template("help.html",user = current_user)
+    else:
+        flash("You do not have access to this page! Pls, Log in!", category="error")
+        return redirect(url_for('views.home'))
+

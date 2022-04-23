@@ -25,8 +25,9 @@
          {% endwith %}
          <div class="user-details">
           {% if data %}
+          
           <div class="input-box">
-            <span class="details">Product ID</span>
+            <span class="details">Product ID ({{data.product_name}})</span>
             <input type="text" id="product_id" name ="product_id" placeholder={{data.product_id}} value={{data.product_id}} required readonly>
             <span class="details">Reason for Check-out</span>
             <input type="text" id="reason" name ="reason" placeholder="Enter Reason for Check-out" required>

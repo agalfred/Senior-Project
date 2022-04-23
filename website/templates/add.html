@@ -26,34 +26,39 @@
         
          <div class="user-details">
           <div class="input-box">
-            <span class="details">Product ID</span>
-            <input type="text" id="product_id" name ="product_id" placeholder="Enter Product ID" required>
+            <span class="details">Product ID*</span>
+            <input type="text" id="product_id" pattern = "[0-9]{5}" name ="product_id" placeholder="Enter unique 5 digits" required>
           </div>
           <div class="input-box">
-            <span class="details">Item Name</span>
+            <span class="details">Item Name*</span>
             <input type="text" id="product_name" name ="product_name" placeholder="Enter Item Name" required>
           </div>
           <div class="input-box">
-            <span class="details">Description </span>
+            <span class="details">Description* </span>
             <input type="text"  id="desc" name ="desc" placeholder="Enter Short description" required>
           </div>
           <div class="input-box">
-            <span class="details">Group </span>
+            <span class="details">Group* </span>
             <input type="text"  id="group" name ="group" placeholder="Enter Item Group" required>
           </div>
           <div class="input-box">
             <span class="details">Subgroup </span>
-            <input type="text"  id="desc" name ="desc" placeholder="Enter Item Subgroup" required>
+            <input type="text"  id="desc" name ="desc" placeholder="Enter Item Subgroup"> <!--made Subgroup not Req-->
           </div>
           <div class="input-box">
-            <span class="details">Item Location</span>
+            <span class="details">Item Location*</span>
             <input type="text"  id="i_loc" name ="i_loc" placeholder="Enter Item Location" required>
           </div>
           <div class="input-box">
-            <span class="details">Quantity</span>
+            <span class="details">Quantity*</span>
             <input type="number"  id="quantity" name ="quantity" placeholder="Enter Amount" required min="1" max="20000">
           </div>
+          <div class="input-box">
+            <span class="details">Is Item Disposable?*</span>
+            <input type="checkbox" id="disposable" name="dispose" required>          
+          </div>
         </div>
+        <p>* Required</p>
         <div class="button">
           <input type="submit" value="Submit">
         </div>

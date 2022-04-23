@@ -24,6 +24,7 @@ class Borroweditem(db.Model):
     date_borrowed = db.Column(db.DateTime(timezone=True), default=func.now())
     reason = db.Column(db.String(200))
     borrower = db.Column(db.Integer, db.ForeignKey('user.s_id', ondelete="CASCADE"),nullable=False) ##foreign key relationship
+    
 
 class Inventory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -35,6 +36,7 @@ class Inventory(db.Model):
     quantity= db.Column(db.Integer)
     group= db.Column(db.String(26))
     subgroup=db.Column(db.String(26))
+    ##dispose=db.Column(db.Boolean)
     Creator = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"),nullable=False) ##foreign key relationship //id of who added it.
 
 class AccessRequest(db.Model):
