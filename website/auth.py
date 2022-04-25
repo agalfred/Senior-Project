@@ -248,7 +248,7 @@ def track_inv(id):
         if product.tracklow == True and product.quantity <= product.lownum:
             app.config.get('mailconfig.cfg')
             mail = Mail(app)
-            email = "andrew.alfred@stmartin.edu"
+            email = "parker.pontarolo@stmartin.edu"
             msg = Message('Low stock alert for SMU Nursing Inventory',sender = 'buakthaimuay@gmail.com',recipients=[email])
             msg.body = "The item " + product.product_name + " has fallen below your requested inventory of " + str(product.lownum) + ". \nConsider restocking soon."
             mail.send(msg)
