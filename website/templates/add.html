@@ -59,11 +59,11 @@
           </div>
           <div class="input-box">
             <span class="details">Is Item Disposable?</span>
-            <input type="checkbox" id="dispose" name="dispose" value="True" onclick="ifchecked()">          
+            <input type="checkbox" id="dispose" name="dispose" value="True">          
           
           
             <span class="details" >Track inventory</span>
-            <input type="checkbox" id="tracklow" name="tracklow" value="True">
+            <input type="checkbox" id="tracklow" name="tracklow" value="True" onclick="ifchecked()">
           </div>
           <div id="lownum-box" class="input-box"  style = "display:none">
             <span class="details" id ="lowbox">Low Number</span>
@@ -88,7 +88,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   <script>
     function ifchecked() {
-      var check = document.getElementById("dispose");
+      var check = document.getElementById("tracklow");
       var low = document.getElementById("lownum-box");
       var lowbox = document.getElementById("lowbox")
       if(check.checked == true){
