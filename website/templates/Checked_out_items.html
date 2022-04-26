@@ -71,7 +71,7 @@
                               <th>{{row.date_borrowed}}</th>
                               <th>{{row.reason}}</th>
                               <th>{{row.quantity}}</th>
-                              <th>{{row.borrower}}</th>
+                              <th>{{session['FNAME']}} {{session['LNAME']}}</th>
                               <th><a style="text-decoration:none" href="/user/Check-in-confirmed/{{row.id}}">Return</a></th>
                           </tr>
                         {% endfor %}

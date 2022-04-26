@@ -62,7 +62,23 @@ form .input-box span.details{
   border: 1px solid #ccc;
   border-bottom-width: 2px;
   transition: all 0.3s ease;
+  
 }
+
+.user-details .check input {
+  height: 45px;
+  width: 10%;
+  outline: none;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  border-bottom-width: 2px;
+  transition: all 0.3s ease;
+  position: fixed; right:388px;
+}
+
+
+
 
 .user-details .input-box input:focus,
 .user-details .input-box input:valid{
