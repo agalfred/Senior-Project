@@ -54,6 +54,7 @@
                         <tr>
                             <th>Item product ID</th>
                             <th>Item Name</th>
+                            <th>Picture</th>
                             <th>Description</th>
                             <th>Date Added</th>
                             <th>Item location</th>
@@ -71,6 +72,7 @@
                           <tr>
                               <th>{{row.product_id}}</th>
                               <th>{{row.product_name}}</th>
+                              <th><a style="text-decoration:none" href="/user/Inventory/display/{{row.product_id}}">X</a></th>
                               <th>{{row.desc}}</th>
                               <th>{{row.date_added}}</th>
                               <th>{{row.i_loc}}</th>

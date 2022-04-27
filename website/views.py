@@ -1,18 +1,35 @@
+import webbrowser
 from flask import Blueprint, render_template, flash, redirect
 from flask_login import login_required, current_user
 from flask import current_app as app
-from flask import request,session,flash,url_for
+from flask import request,session,flash,url_for, abort
 
 from website.auth import track_inv
+from werkzeug.utils import secure_filename
 from .import db
 from .models import AccessRequest, Borroweditem,Inventory
 import re
+import os
 
 views = Blueprint("views",__name__)
 ##regex
 pidpattern = '^[0-9]{5}$'
 strpattern ='[A-Za-z]{2,25}||\s[A-Za-z]{2,200}'
 quantitypattern = '^[0-9]*$'
+
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+
+def allowed_file(filename):
+	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def rename_file(filename, id, path):
+    new = os.path.splitext(filename)
+    ext = new[1]
+    newFile = id + ext
+    """new1 = os.rename(str(new[0]), id)
+    newfilename = os.path.join(new1, new[1])"""
+    os.replace(os.path.join(path, filename), os.path.join(path, newFile))
+    return
 
 @views.route("/")
 @views.route("/login")
@@ -216,9 +233,28 @@ def edit():
                             product.desc=desc
                             product.i_loc=i_loc
                             product.quantity=quantity
-                            db.session.commit()                 
-                            flash("Changed des, location, or quantity successfully",category="success")
-                            return redirect(url_for('views.user'))
+                            file = request.files['file']
+                            if 'file' not in request.files:
+                                flash('No file part')
+                                return redirect(request.url)
+                            if file.filename == '':
+                                flash('No image selected for uploading')
+                                return redirect(request.url)
+                            if file and allowed_file(file.filename):
+                                filename = secure_filename(file.filename)
+                                path = os.path.join(app.config['UPLOAD_FOLDER'], str(products_id))
+                                if os.path.exists(path) == False:
+                                    os.mkdir(path)
+                                file.save(os.path.join(path, filename))
+                                rename_file(filename, str(products_id), path)
+                                #print('upload_image filename: ' + filename)
+                                # flash('Image successfully uploaded and displayed below')
+                                db.session.commit()
+                                flash("Changed des, location, or quantity successfully",category="success")
+                                return redirect(url_for('views.user'))
+                            else:
+                                flash('Allowed image types are -> png, jpg, jpeg, gif')
+                                return redirect(request.url)
                         else:
                             flash("Error in input",category="error")
                             redirect(url_for('views.edit_check', id=product.id))                    
@@ -241,7 +277,24 @@ def edit():
         flash("You do not have access to this page!", category="error")
         return redirect(url_for('views.home'))
 
-@views.route("/")
+@views.route("user/Inventory/display/<id>")
+def display(id):
+    if session.get("id",None) is not None:
+        newPath = os.path.split(app.config['UPLOAD_FOLDER'])
+        newerPath = os.path.split(newPath[0])
+        pathx = os.path.join(app.config['UPLOAD_FOLDER'], str(id))
+        path = os.path.join(newerPath[1], str(id))
+        if os.path.exists(path) == False:
+            abort(404)
+        image_names = os.listdir(pathx)
+        img = image_names[0]
+        img_loc = os.path.join(path, img).replace("\\", "/")
+        return render_template('display.html', image = img_loc)
+
+@views.errorhandler(404)
+def page_not_found(error):
+    return render_template("page_not_found.html"), 404
+
 @views.route("/help")
 def help():
     if session.get("SCHOOL_ID", None) is not None and session.get("FNAME",None) is not None and session.get("LNAME",None) is not None and session.get("DATE",None) is not None and session.get("SF",None) is not None:

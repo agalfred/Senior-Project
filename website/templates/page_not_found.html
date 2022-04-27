@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+    <head>
+        <meta http-equiv="refresh" content="3; URL={{url_for('views.user')}}" /> 
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>404</title>
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles3.css') }}">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />    
+        <link href='https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css' rel='stylesheet' type='text/css'>
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>    
+    </head>
+    <div>
+        <p>Page could not be found redirecting back to main Page</p>
+        <a style="text-decoration:none" style="align-items:center" href="{{url_for('views.user')}}">Click here to cancel or go back to dashboard!</a>
+    </div>
+</html>

@@ -12,7 +12,7 @@
     <div class="title">Edit an item</div>
     <div class="content"> 
       {% if session['ISstaff'] and session['id'] %}     
-      <form action="/user/Inventory/Edit" method="POST">
+      <form action="/user/Inventory/Edit" method="POST" enctype="multipart/form-data">
         {% with messages = get_flashed_messages(with_categories=true)%}
         {% if messages %}
           {% for category, message in messages%}
@@ -44,6 +44,10 @@
           <div class="input-box">
             <span class="details">Change the Quantity</span>
             <input type="text"  id="quantity" name ="quantity" placeholder={{data.quantity}} value={{data.quantity}} required>
+          </div>
+          <div class="input-box">
+            <span class="details">Upload New Image</span>
+            <input type="file" name="file" autocomplete="off" required>
           </div>
           {% endif %}
         </div>

@@ -8,15 +8,18 @@ import redis##session
 from flask_session import Session##session
 
 
+
 db = SQLAlchemy()
 sess = Session()##need to type redis-server to be able to connect to server, check redis-cli KEYS*
 DB_NAME = "database.db"
+UPLOAD_FOLDER = 'website/static/uploads/'
 
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = "VdJeu8dSmW-55Zwk"##hash session data
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+
   
     db.init_app(app)
     
@@ -31,6 +34,9 @@ def create_app():
     app.config['SESSION_REDIS'] = redis.from_url("redis:///127.0.0.1:6379")# redis-server "D:\redis\redis.windows.conf"
 
     sess.init_app(app)
+
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+    app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
     
     from .views import views
     from .auth import auth
