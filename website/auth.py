@@ -253,7 +253,7 @@ def track_inv(id):
             mail = Mail(app)
             email = "parker.pontarolo@stmartin.edu"
             msg = Message('Low stock alert for SMU Nursing Inventory',sender = 'buakthaimuay@gmail.com',recipients=[email])
-            msg.body = "The item " + product.product_name + " has fallen below your requested inventory of " + str(product.lownum) + ". \nConsider restocking soon."
+            msg.body = "The item " + product.product_name + "with product ID" + product.product_id + " has fallen below your requested inventory of " + str(product.lownum) + ". \n Current stock is" + product.quantity +  "Consider restocking soon."
             mail.send(msg)
     return
 
