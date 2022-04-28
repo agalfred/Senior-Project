@@ -253,27 +253,19 @@ def edit():
                             product.i_loc=i_loc
                             product.quantity=quantity
                             file = request.files['file']
-                            if 'file' not in request.files:
-                                flash('No file part')
-                                return redirect(request.url)
-                            if file.filename == '':
-                                flash('No image selected for uploading')
-                                return redirect(request.url)
                             if file and allowed_file(file.filename):
                                 filename = secure_filename(file.filename)
                                 path = os.path.join(app.config['UPLOAD_FOLDER'], str(products_id))
-                                if os.path.exists(path) == False:
-                                    os.mkdir(path)
                                 file.save(os.path.join(path, filename))
                                 rename_file(filename, str(products_id), path)
                                 #print('upload_image filename: ' + filename)
                                 # flash('Image successfully uploaded and displayed below')
-                                db.session.commit()
-                                flash("Changed des, location, or quantity successfully",category="success")
-                                return redirect(url_for('views.user'))
                             else:
                                 flash('Allowed image types are -> png, jpg, jpeg, gif')
                                 return redirect(request.url)
+                            db.session.commit()
+                            flash("Changed des, location, or quantity successfully",category="success")
+                            return redirect(url_for('views.user'))
                         else:
                             flash("Error in input",category="error")
                             redirect(url_for('views.edit_check', id=product.id))                    

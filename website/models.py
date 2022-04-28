@@ -20,7 +20,7 @@ class User(db.Model, UserMixin):##usermixin makes it easier for user login
 
 class Borroweditem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    product_id= db.Column(db.Integer)
+    product_id= db.Column(db.String(5))
     quantity = db.Column(db.Integer)
     date_borrowed = db.Column(db.DateTime(timezone=True), default=func.now())
     reason = db.Column(db.String(200))
@@ -29,7 +29,7 @@ class Borroweditem(db.Model):
 
 class Inventory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    product_id = db.Column(db.Integer(), unique=True)
+    product_id = db.Column(db.String(5), unique=True)
     product_name = db.Column(db.String(26))
     date_added = db.Column(db.DateTime(timezone=True), default=func.now())
     desc=db.Column(db.String(200))
