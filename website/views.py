@@ -142,10 +142,29 @@ def add():
                         else:
                             tracklow=False
                         add = Inventory(product_id=products_id, product_name=product_name, quantity=quantity, desc=desc, group=group, subgroup=subgroup, i_loc=i_loc, dispose=dispose, tracklow=tracklow, lownum=lownum, Creator=current_user.id)
-                        db.session.add(add)
-                        db.session.commit()
-                        flash("Successfully added.",category="success")
-                        return redirect(url_for('views.user'))
+                        file = request.files['file']
+                        if 'file' not in request.files:
+                                flash('No file part')
+                                return redirect(request.url)
+                        if file.filename == '':
+                            flash('No image selected for uploading')
+                            return redirect(request.url)
+                        if file and allowed_file(file.filename):
+                            filename = secure_filename(file.filename)
+                            path = os.path.join(app.config['UPLOAD_FOLDER'], str(products_id))
+                        if os.path.exists(path) == False:
+                            os.mkdir(path)
+                            file.save(os.path.join(path, filename))
+                            rename_file(filename, str(products_id), path)
+                            #print('upload_image filename: ' + filename)
+                            # flash('Image successfully uploaded and displayed below')
+                            db.session.add(add)
+                            db.session.commit()
+                            flash("Successfully added.",category="success")
+                            return redirect(url_for('views.user'))
+                        else:
+                            flash('Allowed image types are -> png, jpg, jpeg, gif')
+                            return redirect(request.url)
                     else:
                         flash("Failed to add",category="error")
         return render_template("add.html",user=current_user)       
@@ -284,11 +303,11 @@ def display(id):
         newerPath = os.path.split(newPath[0])
         pathx = os.path.join(app.config['UPLOAD_FOLDER'], str(id))
         path = os.path.join(newerPath[1], str(id))
-        if os.path.exists(path) == False:
-            abort(404)
         image_names = os.listdir(pathx)
         img = image_names[0]
-        img_loc = os.path.join(path, img).replace("\\", "/")
+        img_loc = os.path.join("/", path, img).replace("\\", "/")
+        if os.path.exists(img_loc) == True:
+            abort(404)
         return render_template('display.html', image = img_loc)
 
 @views.errorhandler(404)

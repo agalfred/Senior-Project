@@ -65,6 +65,29 @@ form .input-box span.details{
   
 }
 
+form .user-details .input-box2{
+  margin-bottom: 15px;
+  width: calc(100% / 2 - 20px);
+}
+
+form .input-box2 span.details{
+  display: block;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.user-details .input-box2 input{
+  height: 45px;
+  width: 100%;
+  outline: none;
+  font-size: 16px;
+  border-radius: 5px;
+  padding-left: 15px;
+  border-bottom-width: 2px;
+  transition: all 0.3s ease;
+  
+}
+
 .user-details .check input {
   height: 45px;
   width: 10%;
