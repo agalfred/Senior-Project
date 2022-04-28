@@ -20,6 +20,11 @@
             <a></a>
           </header>
           <ul>
+            {% if session['ISadmin'] %}
+            <li><span>Administrator</span></li>
+            <li class="acc"><a style="text-decoration:none" href="{{url_for('auth.manage_users')}}">Manage Users</a></li>
+            {% endif %}
+
             <li><span>Navigation</span></li>
             <li class="inv"><a class="active" style="text-decoration:none" href="{{url_for('views.user')}}">Inventory</a></li>
             <li class="move"><a style="text-decoration:none" href="{{url_for('views.Check_in')}}">Check-in</a></li>
@@ -59,6 +64,7 @@
                             <th>Date Added</th>
                             <th>Item location</th>
                             <th>Group</th>
+                            <th>Subgroup</th>
                             <th>Quantity</th>
                             <th>Add to Cart</th>
                             {% if session['ISstaff'] and session['id'] %}
@@ -77,6 +83,7 @@
                               <th>{{row.date_added}}</th>
                               <th>{{row.i_loc}}</th>
                               <th>{{row.group}}</th>
+                              <th>{{row.subgroup}}</th>
                               <th>{{row.quantity}}</th>
                               <th><a style="text-decoration:none" href="/user/Inventory/Check_Out_Check/{{row.id}}">X</a></th>
                               {% if session['ISstaff'] and session['id'] %}

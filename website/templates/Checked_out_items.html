@@ -22,6 +22,11 @@
             <a></a>
           </header>
           <ul>
+            {% if session['ISadmin'] %}
+            <li><span>Administrator</span></li>
+            <li class="acc"><a style="text-decoration:none" href="{{url_for('auth.manage_users')}}">Manage Users</a></li>
+            {% endif %}
+
             <li><span>Navigation</span></li>
             <li class="inv"><a style="text-decoration:none" href="{{url_for('views.user')}}">Inventory</a></li>
             <li class="move"><a style="text-decoration:none" href="{{url_for('views.Check_in')}}">Check-in</a></li>

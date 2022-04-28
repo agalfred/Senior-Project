@@ -24,7 +24,7 @@
           <ul>
             {% if session['ISadmin'] %}
             <li><span>Administrator</span></li>
-            <li class="acc"><a style="text-decoration:none" href="{{url_for('auth.manage_users')}}">Manage Users</a></li>
+            <li class="acc"><a class="active" style="text-decoration:none" href="{{url_for('auth.manage_users')}}">Manage Users</a></li>
             {% endif %}
 
             <li><span>Navigation</span></li>
@@ -40,7 +40,7 @@
             <li class="acc"><a style="text-decoration:none;" href="{{url_for('auth.get_access')}}">Get Access</a></li>
             {% endif %}
             {% if session['ISstaff'] and session['id'] %}
-            <li class="acc"><a class="active" style="text-decoration:none;" href="{{url_for('views.access')}}">Requests</a></li>
+            <li class="acc"><a style="text-decoration:none;" href="{{url_for('views.access')}}">Requests</a></li>
             {% endif %}
             <li class="acc"><a style="text-decoration:none" href="{{url_for('views.account_info')}}">Account Info</a></li>
             <!--<li><a>Settings</a></li>-->
@@ -54,7 +54,7 @@
           <h1>P{{session['SCHOOL_ID']}}'s DASHBOARD</h1>
           <div class="container-fluid">
             <div class="row" style="padding:50px;">
-                <p><h2>List of users requesting staff level access</h1></p>
+                <p><h2>List of all users</h1></p>
                 <div >
                     <table id='empTable' class='display dataTable' width='100%'>
                         <thead>
@@ -63,21 +63,25 @@
                             <th>School ID</th>
                             <th>First Name</th>
                             <th>Last Name</th>
-                            <th>Date Requested</th> <!--date created -->
-                            <th>Accept</th>
-                            <th>Reject</th>
+                            <th>Email</th>
+                            <th>Access Level</th>
+                            <th>Revoke Access</th>
+                            <th>Delete User</th>
                         </tr>
                         </thead>
                         {% for row in data %}
+                        {% if row.id != 1 %}
                           <tr>
                               <th>{{row.id}}</th>
-                              <th>{{row.requester}}</th>
+                              <th>{{row.s_id}}</th>
                               <th>{{row.fname}}</th>
                               <th>{{row.lname}}</th>
-                              <th>{{row.date_requested}}</th>
-                              <th><a style="text-decoration:none" href="/allow-access/{{row.id}}">Allow</a></th>
-                              <th><a style="text-decoration:none" href="/deny-access/{{row.id}}">Deny</a></th>
+                              <th>{{row.email}}</th>
+                              <th>{{row.sf}}</th>
+                              <th><a style="text-decoration:none" href="/revoke-access/{{row.id}}">Revoke Access</a></th>
+                              <th><a style="text-decoration:none" href="/delete-user/{{row.id}}">Delete User</a></th>
                             </tr>
+                        {% endif %}
                         {% endfor %}
                         <tbody>
                           

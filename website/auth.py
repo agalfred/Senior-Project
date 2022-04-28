@@ -57,6 +57,9 @@ def login():
                         if user.sf == "Staff":
                             session['ISstaff']="access" ##creates a session if user is staff-->using it in html for add edit and delete
                             app.config.get('mailconfig.cfg')
+
+                        if user.email == "admin@stmartin.edu":
+                            session['ISadmin']="access"
                                     
                         return redirect(url_for('views.user'))                        
                     else:
@@ -299,6 +302,36 @@ def deny_access(id):
         db.session.delete(requester)
         db.session.commit()
     return redirect(url_for("views.access"))
+
+@auth.route("/user/manage-users")
+@login_required
+def manage_users():
+    if session.get("ISadmin",None) is not None:
+        users = User.query.all()
+        return render_template("manage-users.html",user = current_user, data=users)
+    else:
+        flash("You do not have access to this page! Pls, Log in!", category="error")
+        return redirect(url_for('views.home'))
+
+@auth.route("/revoke-access/<id>")
+@login_required
+def revoke_access(id):
+    if session.get("ISadmin",None) is not None:
+        change = User.query.filter_by(id=id).first()
+
+        change.sf = "Student"
+        db.session.commit()
+    return redirect(url_for("auth.manage_users"))
+
+@auth.route("/delete-user/<id>")
+@login_required
+def delete_user(id):
+    if session.get("ISadmin",None) is not None:
+        change = User.query.filter_by(id=id).first()
+
+        db.session.delete(change)
+        db.session.commit()
+    return redirect(url_for("auth.manage_users"))
 
 @auth.route("/logout")##logouts user deletes sessions and logout func deletes the remember me saved cookies 
 @login_required
