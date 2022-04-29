@@ -24,7 +24,7 @@ class Borroweditem(db.Model):
     quantity = db.Column(db.Integer)
     date_borrowed = db.Column(db.DateTime(timezone=True), default=func.now())
     reason = db.Column(db.String(200))
-    borrower = db.Column(db.Integer, db.ForeignKey('user.s_id', ondelete="CASCADE"),nullable=False) ##foreign key relationship
+    borrower = db.Column(db.String(9), db.ForeignKey('user.s_id', ondelete="CASCADE"),nullable=False) ##foreign key relationship
     
 
 class Inventory(db.Model):

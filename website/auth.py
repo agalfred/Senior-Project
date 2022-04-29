@@ -342,6 +342,7 @@ def logout():
     session.pop("DATE",None)
     session.pop("SF",None)
     session.pop("ISstaff",None)
+    session.pop("ISadmin",None)
     session.pop("id",None)
     logout_user()
     flash("Successfully logged out",category="success")
